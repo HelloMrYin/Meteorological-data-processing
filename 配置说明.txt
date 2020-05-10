@@ -1,0 +1,43 @@
+项目名称：基于C++的河南气象数据处理的设计与实现
+开发语言：C,C++
+运行环境：linux
+操作系统：Centos7及以上，服务端安装oracle数据库
+
+使用说明：
+	./filename --查看filename程序的帮助说明
+运行客户端：1.在Linux根目录创建htidc、data、log三个文件夹，并将此三个文件夹分配给某个普通用户。
+	2.普通用户在/htidc/ 目录下解压Client.tgz。并手动创建/data/hnqx/ftp/surfdatabak/ 目录存放被采集的文件
+	3.在/htidc/hnqx/c/ 目录下执行~ make 编译源代码。
+	4.运行程序: ~ sh /htidc/hnqx/c/start.sh 
+	5.停止程序：~ sh /htidc/hnqx/c/kill.sh 
+	6.定时删除文件：使用crontab运行，~ ./htidc/hnqx/c/deletefiles.cpp 将显示的运行信息复制到crontab中，并设置运行时间间隔。
+运行服务端：1.在Linux根目录创建htidc、data、log三个文件夹，并将此三个文件夹分配给某个普通用户。
+	2.普通用户在/htidc/ 目录下解压Server.tgz。
+	3.在/htidc/hnqx/c/ 和 /htidc/public/c/ 目录分别执行~ make 编译源代码。
+	4.运行程序：~ sh /htidc/hnqx/c/startall.sh
+	5.结束程序：~ sh /htidc/hnqx/c/killall.sh
+	
+文件及文件夹介绍：
+客户端：1./htidc/hnqx/c/makefile --存放编译语句的文件，执行~ make 运行。
+	2./htidc/hnqx/c/_cmpublic.h --存放程序的头文件。
+	3./htidc/hnqx/c/_public.h --存放程序自定义函数的声明。
+	4./htidc/hnqx/c/_public.cpp --存放程序自定义函数的实现。
+	5./htidc/hnqx/c/_start.sh --存放程序运行的参数的文件，以及程序的运行。
+	6./htidc/hnqx/c/_kill.sh --程序的结束文件。
+	7./htidc/hnqx/c/deletefiles.cpp --对指定目录删除指定时间前的文件。此程序使用crontab运行。
+	8./htidc/hnqx/c/crtsurfdata.cpp --生成全国站点分钟数据。
+服务端：1./htidc/hnqx/c/makefile --存放编译语句的文件，执行~ make 运行。
+	2./htidc/public/c/_cmpublic.h --存放程序的头文件。
+	3./htidc/public/c/_public.h --存放程序自定义函数的声明。
+	4./htidc/public/c/_public.cpp --存放程序自定义函数的实现。
+	5./htidc/hnqx/c/_startall.sh --存放程序运行的参数的文件，以及程序的运行。
+	6./htidc/hnqx/c/_killall.sh --程序的结束文件。
+	7./htidc/hnqx/c/psurfdata.cpp --将指定文件存放到数据库中
+	8./htidc/hnqx/c/_hnqx.h --存放psurfdata.cpp的数据库操作声明
+	9./htidc/hnqx/c/_hnqx.cpp --存放psurfdata.cpp的数据库操操作实现
+	/htidc/public/c/文件夹存放项目公共部分，以及公共程序。其中：
+		_ooci.cpp,_ooci.h --存放对Oracle数据库操作的声明和实现。
+		deletetables.cpp --删除数据库旧文件。
+		ftpgetfiles.cpp --采集站点分钟数据，并将采集过的放到指定备份目录
+		ftplib.h,ftplib.c,_ftp.h,_ftp.cpp --ftp功能的声明与实现
+	
